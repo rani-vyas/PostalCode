@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 export function ZipPostalCode () {
-   const [zipcode,setZipcode] = useState('')
+   const [zipcode,setZipcode] = useState('');
+   const [error,setError] = useState('');
+   const [message,setMessage] = useState('');
     
     const handlechangeCode = (event) =>{
     setZipcode(event.target.value);
@@ -9,21 +11,20 @@ export function ZipPostalCode () {
    const handleSubmitCode = (event) =>{
   event.preventDefault();
     if(zipcode.length !== 5){
-    const c = document.getElementById('para-id');
-    c.innerText = ` Please enter a valid ZIP Code !(5 digits).`;
-    setTimeout(() =>{
-       c.innerText = " ";
-    },5000);
+    setError("Please Enter a valid ZIP Code! (Only 5 digits) ")
    }
    else{
-    console.log('You Entered Valid ZipCode' , zipcode)
-    const b = document.getElementById('para1-id');
-    b.innerText = `You Entered Valid ZipCode ${zipcode}.`;
-
- setTimeout(() => {
-    b.innerText = " ";
- },5000);
+    setError('')
 }
+
+if(zipcode.length === 5){
+    console.log('You Entered Valid ZipCode' , zipcode)
+        setMessage('You Entered Valid ZipCode' , zipcode)
+}
+else{
+    setMessage('')
+}
+
 }
     return(
         <>
@@ -37,8 +38,10 @@ export function ZipPostalCode () {
                 value={zipcode}
                 
                 />
-                <p id="para-id" style={{color:'Red'}}></p>
-                <p id="para1-id" style={{color:'Blue'}}></p>
+                {error && <p style={{color:'red'}}>{error}</p>}
+                {message && <p style={{color:"green"}}>{message}</p>}
+               {/* <p id="para-id" style={{color:'Red'}}></p>
+                <p id="para1-id" style={{color:'Blue'}}></p>*/}
             <button type="Submit" >Submit</button>
             </form>
         </div>
